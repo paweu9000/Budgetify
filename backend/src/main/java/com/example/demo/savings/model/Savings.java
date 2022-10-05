@@ -20,6 +20,17 @@ public class Savings {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public UUID getId() {
         return id;
     }
