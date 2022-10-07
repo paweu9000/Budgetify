@@ -12,7 +12,7 @@ public abstract class BudgetEntity {
 
     @Id
     @Column(nullable = false, name = "id", columnDefinition = "VARCHAR(255)")
-    private UUID id;
+    private final UUID ID;
 
     @Column(nullable = false, name = "amount")
     private double amount;
@@ -24,17 +24,18 @@ public abstract class BudgetEntity {
     private LocalDate date;
 
     public BudgetEntity() {
+        this.ID = UUID.randomUUID();
     }
 
     public BudgetEntity(double amount) {
-        this.id = UUID.randomUUID();
+        this.ID = UUID.randomUUID();
         this.amount = amount;
         this.date = LocalDate.now();
         this.name = BudgetType.PLACEHOLDER;
     }
 
     public UUID getId() {
-        return id;
+        return ID;
     }
 
     public double getAmount() {
@@ -64,7 +65,7 @@ public abstract class BudgetEntity {
     @Override
     public String toString() {
         return "BudgetEntity{" +
-                "id=" + id.toString() +
+                "id=" + ID.toString() +
                 ", amount=" + amount +
                 ", name=" + name +
                 ", date=" + date +
