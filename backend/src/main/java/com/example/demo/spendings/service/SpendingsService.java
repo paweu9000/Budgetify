@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SpendingsService{
 
-    private final SpendingsRepository repository;
+    final SpendingsRepository repository;
 
     public SpendingsService(SpendingsRepository repository) {
         this.repository = repository;
