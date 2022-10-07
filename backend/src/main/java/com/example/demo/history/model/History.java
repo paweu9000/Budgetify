@@ -17,7 +17,7 @@ public class History {
     @Column(nullable = false, name = "id", columnDefinition = "VARCHAR(255)")
     private final UUID ID;
 
-    @Column(name = "id")
+    @Column(name = "transactions")
     private ArrayList<BudgetEntity> transactions;
 
     public History() {
