@@ -1,4 +1,4 @@
-package com.example.demo.loan;
+package com.example.demo.loan.model;
 
 import com.example.demo.enums.BudgetType;
 import com.example.demo.modelAbstract.BudgetEntity;
