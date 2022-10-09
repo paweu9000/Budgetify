@@ -1,11 +1,9 @@
 package com.example.demo.history.model;
 
 import com.example.demo.modelAbstract.BudgetEntity;
+import com.example.demo.user.model.User;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -15,14 +13,32 @@ public class History {
 
     @Id
     @Column(nullable = false, name = "id", columnDefinition = "VARCHAR(255)")
-    private final UUID ID;
+    private UUID ID;
 
     @Column(name = "transactions")
     private ArrayList<BudgetEntity> transactions;
 
-    public History() {
+    @OneToOne(orphanRemoval = true)
+    @JoinTable(name = "history_user",
+            joinColumns = @JoinColumn(name = "history_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_user_id"))
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public History(User user) {
         this.ID = UUID.randomUUID();
         this.transactions = new ArrayList<BudgetEntity>();
+        this.user = user;
+    }
+
+    public History() {
     }
 
     public UUID getID() {
