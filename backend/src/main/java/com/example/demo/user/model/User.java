@@ -7,12 +7,12 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user_data")
+@Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false, name = "id", columnDefinition = "VARCHAR(255)")
+    @Column(nullable = false, name = "user_id", columnDefinition = "VARCHAR(255)")
     private UUID id;
 
     @Column(nullable = false)
@@ -28,7 +28,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private History history;
 
     public User() {
