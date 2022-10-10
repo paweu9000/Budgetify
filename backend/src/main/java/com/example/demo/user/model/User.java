@@ -1,13 +1,13 @@
 package com.example.demo.user.model;
 
-import com.example.demo.history.model.History;
+import com.example.demo.income.model.Income;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_data")
 public class User {
 
     @Id
@@ -28,11 +28,12 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private History history;
-
     @Column(nullable = false)
     private double balance;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "income_id", referencedColumnName = "id")
+    private Income income;
 
     public User() {
     }
@@ -42,7 +43,6 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.history = new History(this);
         this.balance = 0.00;
     }
 
@@ -86,19 +86,20 @@ public class User {
         this.password = password;
     }
 
-    public History getHistory() {
-        return history;
-    }
-
-    public void setHistory(History history) {
-        this.history = history;
-    }
-
     public double getBalance() {
         return balance;
     }
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    @OneToOne
+    public Income getIncome() {
+        return income;
+    }
+
+    public void setIncome(Income income) {
+        this.income = income;
     }
 }

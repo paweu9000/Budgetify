@@ -2,13 +2,18 @@ package com.example.demo.income.model;
 
 import com.example.demo.enums.BudgetType;
 import com.example.demo.modelAbstract.BudgetEntity;
+import com.example.demo.user.model.User;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "income")
 public class Income extends BudgetEntity {
+
+    @OneToOne
+    private User user;
 
     public Income() {
     }
