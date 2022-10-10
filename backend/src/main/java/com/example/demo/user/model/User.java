@@ -99,12 +99,19 @@ public class User {
         this.balance = balance;
     }
 
-    @OneToOne
     public Income getIncome() {
         return income;
     }
 
     public void setIncome(Income income) {
         this.income = income;
+    }
+
+    public Loan getLoan() {
+        return loan;
+    }
+
+    public void setLoan(Loan loan) {
+        this.loan = loan;
     }
 }
