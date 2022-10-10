@@ -1,6 +1,7 @@
 package com.example.demo.user.model;
 
 import com.example.demo.income.model.Income;
+import com.example.demo.loan.model.Loan;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -34,6 +35,10 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "income_id", referencedColumnName = "id")
     private Income income;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "loan_id", referencedColumnName = "id")
+    private Loan loan;
 
     public User() {
     }
