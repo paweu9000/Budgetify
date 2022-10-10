@@ -31,6 +31,9 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private History history;
 
+    @Column(nullable = false)
+    private double balance;
+
     public User() {
     }
 
@@ -40,6 +43,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.history = new History(this);
+        this.balance = 0.00;
     }
 
     public UUID getId() {
@@ -88,5 +92,13 @@ public class User {
 
     public void setHistory(History history) {
         this.history = history;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 }
