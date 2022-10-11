@@ -8,7 +8,9 @@ import com.example.demo.transaction.model.Transaction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -53,7 +55,7 @@ public class User {
     private Spendings spendings;
 
     @OneToMany(mappedBy = "user")
-    private List<Transaction> transactions;
+    private Set<Transaction> transactions;
 
     public User() {
     }
@@ -64,6 +66,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.balance = 0.00;
+        this.transactions = new HashSet<>();
     }
 
     public UUID getId() {
@@ -144,5 +147,9 @@ public class User {
 
     public void setSpendings(Spendings spendings) {
         this.spendings = spendings;
+    }
+
+    public Set<Transaction> getTransactions() {
+        return transactions;
     }
 }
