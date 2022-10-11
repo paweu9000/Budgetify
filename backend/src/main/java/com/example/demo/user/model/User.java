@@ -2,6 +2,7 @@ package com.example.demo.user.model;
 
 import com.example.demo.income.model.Income;
 import com.example.demo.loan.model.Loan;
+import com.example.demo.savings.model.Savings;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -39,6 +40,10 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "loan_id", referencedColumnName = "id")
     private Loan loan;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "savings_id", referencedColumnName = "id")
+    private Savings savings;
 
     public User() {
     }
@@ -99,12 +104,27 @@ public class User {
         this.balance = balance;
     }
 
-    @OneToOne
     public Income getIncome() {
         return income;
     }
 
     public void setIncome(Income income) {
         this.income = income;
+    }
+
+    public Loan getLoan() {
+        return loan;
+    }
+
+    public void setLoan(Loan loan) {
+        this.loan = loan;
+    }
+
+    public Savings getSavings() {
+        return savings;
+    }
+
+    public void setSavings(Savings savings) {
+        this.savings = savings;
     }
 }
