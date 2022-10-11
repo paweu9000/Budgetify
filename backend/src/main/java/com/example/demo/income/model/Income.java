@@ -5,6 +5,7 @@ import com.example.demo.modelAbstract.BudgetEntity;
 import com.example.demo.user.model.User;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 public class Income extends BudgetEntity {
 
     @OneToOne
+    @JoinColumn(name = "user_data_id", nullable = false)
     private User user;
 
     public Income() {
