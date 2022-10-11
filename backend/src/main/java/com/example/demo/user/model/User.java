@@ -4,9 +4,11 @@ import com.example.demo.income.model.Income;
 import com.example.demo.loan.model.Loan;
 import com.example.demo.savings.model.Savings;
 import com.example.demo.spendings.model.Spendings;
+import com.example.demo.transaction.model.Transaction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -49,6 +51,9 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "spendings_id", referencedColumnName = "id")
     private Spendings spendings;
+
+    @OneToMany(mappedBy = "user")
+    private List<Transaction> transactions;
 
     public User() {
     }
