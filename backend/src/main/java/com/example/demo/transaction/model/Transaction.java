@@ -41,4 +41,39 @@ public class Transaction {
         this.date = LocalDate.now();
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public BudgetType getBudgetType() {
+        return budgetType;
+    }
+
+    public void setBudgetType(BudgetType budgetType) {
+        this.budgetType = budgetType;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 }
