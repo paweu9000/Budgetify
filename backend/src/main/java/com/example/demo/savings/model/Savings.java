@@ -13,6 +13,7 @@ import java.util.UUID;
 public class Savings extends BudgetEntity {
 
     @OneToOne
+    @JoinColumn(name = "user_data_id", nullable = false)
     User user;
 
     public Savings() {
