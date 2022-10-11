@@ -3,6 +3,7 @@ package com.example.demo.user.model;
 import com.example.demo.income.model.Income;
 import com.example.demo.loan.model.Loan;
 import com.example.demo.savings.model.Savings;
+import com.example.demo.spendings.model.Spendings;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -44,6 +45,10 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "savings_id", referencedColumnName = "id")
     private Savings savings;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "spendings_id", referencedColumnName = "id")
+    private Spendings spendings;
 
     public User() {
     }
@@ -126,5 +131,13 @@ public class User {
 
     public void setSavings(Savings savings) {
         this.savings = savings;
+    }
+
+    public Spendings getSpendings() {
+        return spendings;
+    }
+
+    public void setSpendings(Spendings spendings) {
+        this.spendings = spendings;
     }
 }
