@@ -5,6 +5,7 @@ import com.example.demo.loan.model.Loan;
 import com.example.demo.savings.model.Savings;
 import com.example.demo.spendings.model.Spendings;
 import com.example.demo.transaction.model.Transaction;
+import com.example.demo.user.roles.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -56,6 +57,12 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<Transaction> transactions;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_data_roles",
+            joinColumns = @JoinColumn(name = "user_data_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "id"))
+    private Set<Role> roles;
 
     public User() {
     }
@@ -151,5 +158,13 @@ public class User {
 
     public Set<Transaction> getTransactions() {
         return transactions;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
     }
 }
