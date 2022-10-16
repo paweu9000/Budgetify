@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Spendings extends BudgetEntity {
 
     @OneToOne
-    @JoinColumn(name = "user_data_id", nullable = false)
+    @JoinColumn(name = "users_id", nullable = false)
     private User user;
 
     public Spendings() {

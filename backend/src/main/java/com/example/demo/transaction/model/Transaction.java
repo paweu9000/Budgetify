@@ -28,7 +28,7 @@ public class Transaction {
     private LocalDate date;
 
     @ManyToOne
-    @JoinColumn(name = "user_data_id", nullable = false)
+    @JoinColumn(name = "users_id", nullable = false)
     private User user;
 
     public Transaction() {

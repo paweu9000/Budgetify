@@ -1,6 +1,9 @@
 package com.example.demo.user.roles;
 
+import com.example.demo.user.model.User;
+
 import javax.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -8,7 +11,7 @@ import java.util.UUID;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private UUID id;
 
     @Column(length = 60)
