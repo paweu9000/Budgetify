@@ -4,14 +4,13 @@ import com.example.demo.enums.BudgetType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.UUID;
 
 @MappedSuperclass
 public abstract class BudgetEntity {
 
     @Id
-    @Column(nullable = false, name = "id", columnDefinition = "VARCHAR(255)")
+    @Column(nullable = false, name = "id")
     private final UUID ID;
 
     @Column(nullable = false, name = "amount")
