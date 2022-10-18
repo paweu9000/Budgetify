@@ -22,7 +22,7 @@ public class TransactionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Transaction> getTransaction(@PathVariable UUID id) {
+    public ResponseEntity<Transaction> getTransaction(@PathVariable long id) {
         Transaction transaction = transactionService.findById(id);
         return new ResponseEntity<>(transaction, HttpStatus.OK);
     }

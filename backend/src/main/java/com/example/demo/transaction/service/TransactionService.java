@@ -16,11 +16,11 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    public Transaction findById(UUID id) {
+    public Transaction findById(long id) {
         return unwrapTransaction(id);
     }
 
-    public Transaction unwrapTransaction(UUID id) {
+    public Transaction unwrapTransaction(long id) {
         Optional<Transaction> transaction = transactionRepository.findById(id);
         if(transaction.isPresent()) {
             return transaction.get();
