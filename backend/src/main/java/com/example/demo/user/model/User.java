@@ -1,12 +1,9 @@
 package com.example.demo.user.model;
 
-import com.example.demo.income.model.Income;
-import com.example.demo.loan.model.Loan;
-import com.example.demo.savings.model.Savings;
-import com.example.demo.spendings.model.Spendings;
 import com.example.demo.transaction.model.Transaction;
 import com.example.demo.user.roles.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -18,8 +15,8 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(nullable = false)
     private String login;
@@ -37,34 +34,28 @@ public class User {
     @Column(nullable = false)
     private double balance;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "income_id", referencedColumnName = "id")
-    private Income income;
+    private double income = 0.00;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "loan_id", referencedColumnName = "id")
-    private Loan loan;
+    private double loan = 0.00;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "savings_id", referencedColumnName = "id")
-    private Savings savings;
+    private double savings = 0.00;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "spendings_id", referencedColumnName = "id")
-    private Spendings spendings;
+    private double spendings = 0.00;
 
     @OneToMany(mappedBy = "user")
-    private Set<Transaction> transactions;
+    private Set<Transaction> transactions = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     private Set<Role> roles = new HashSet<>();
 
     public User() {
+        this.balance = 0.00;
+        this.transactions = new HashSet<>();
     }
 
     public User(String login, String username, String email, String password) {
@@ -73,15 +64,10 @@ public class User {
         this.email = email;
         this.password = password;
         this.balance = 0.00;
-        this.transactions = new HashSet<>();
     }
 
-    public UUID getId() {
+    public long getId() {
         return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getLogin() {
@@ -124,38 +110,6 @@ public class User {
         this.balance = balance;
     }
 
-    public Income getIncome() {
-        return income;
-    }
-
-    public void setIncome(Income income) {
-        this.income = income;
-    }
-
-    public Loan getLoan() {
-        return loan;
-    }
-
-    public void setLoan(Loan loan) {
-        this.loan = loan;
-    }
-
-    public Savings getSavings() {
-        return savings;
-    }
-
-    public void setSavings(Savings savings) {
-        this.savings = savings;
-    }
-
-    public Spendings getSpendings() {
-        return spendings;
-    }
-
-    public void setSpendings(Spendings spendings) {
-        this.spendings = spendings;
-    }
-
     public Set<Transaction> getTransactions() {
         return transactions;
     }
@@ -166,5 +120,27 @@ public class User {
 
     public void addRole(Role role) {
         this.roles.add(role);
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", balance=" + balance +
+                ", income=" + income +
+                ", loan=" + loan +
+                ", savings=" + savings +
+                ", spendings=" + spendings +
+                ", transactions=" + transactions +
+                ", roles=" + roles +
+                '}';
     }
 }

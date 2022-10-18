@@ -12,8 +12,8 @@ import java.util.UUID;
 public class Transaction {
 
     @Id
-    @Column(nullable = false)
-    private final UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(name = "description", nullable = false)
     private String description;
@@ -32,11 +32,9 @@ public class Transaction {
     private User user;
 
     public Transaction() {
-        this.id = UUID.randomUUID();
     }
 
-    public Transaction(String description, BudgetType budgetType, double amount, LocalDate date, User user) {
-        this.id = UUID.randomUUID();
+    public Transaction(String description, BudgetType budgetType, double amount, User user) {
         this.description = description;
         this.budgetType = budgetType;
         this.amount = amount;
@@ -44,7 +42,7 @@ public class Transaction {
         this.user = user;
     }
 
-    public UUID getId() {
+    public long getId() {
         return id;
     }
 
