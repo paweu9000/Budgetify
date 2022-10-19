@@ -1,5 +1,6 @@
 package com.example.demo.transaction.webcontroller;
 
+import com.example.demo.dto.TransactionDto;
 import com.example.demo.transaction.model.Transaction;
 import com.example.demo.transaction.service.TransactionService;
 import com.example.demo.user.model.User;
@@ -32,15 +33,10 @@ public class TransactionController {
 
     @PostMapping("")
     public ResponseEntity<String> createTransaction(@CurrentSecurityContext(expression = "authentication?.name")
-                                                    String email, @RequestBody Transaction transaction) {
+                                                    String email, @RequestBody TransactionDto transactionDto) {
         User user = userService.findByEmail(email);
-        Transaction transaction1 = new Transaction();
-        transaction1.setAmount(transaction.getAmount());
-        transaction1.setBudgetType(transaction.getBudgetType());
-        transaction1.setDescription(transaction.getDescription());
-        transaction1.setUser(user);
-        transactionService.saveTransaction(transaction1);
-        System.out.println(user.getTransactions());
-        return new ResponseEntity<>(transaction1.toString(), HttpStatus.OK);
+        Transaction transaction = transactionService.readDto(transactionDto, user);
+        transactionService.saveTransaction(transaction);
+        return new ResponseEntity<>(transaction.toString(), HttpStatus.OK);
     }
 }
