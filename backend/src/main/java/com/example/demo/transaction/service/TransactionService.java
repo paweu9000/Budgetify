@@ -2,6 +2,7 @@ package com.example.demo.transaction.service;
 
 import com.example.demo.transaction.model.Transaction;
 import com.example.demo.transaction.repository.TransactionRepository;
+import com.example.demo.user.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,5 +28,9 @@ public class TransactionService {
         } else {
             throw new RuntimeException("Transaction with id: " + id + " does not exist!");
         }
+    }
+
+    public void saveTransaction(Transaction transaction) {
+        this.transactionRepository.save(transaction);
     }
 }
