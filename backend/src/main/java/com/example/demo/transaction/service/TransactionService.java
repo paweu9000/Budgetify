@@ -1,5 +1,6 @@
 package com.example.demo.transaction.service;
 
+import com.example.demo.dto.TransactionDto;
 import com.example.demo.transaction.model.Transaction;
 import com.example.demo.transaction.repository.TransactionRepository;
 import com.example.demo.user.model.User;
@@ -32,5 +33,14 @@ public class TransactionService {
 
     public void saveTransaction(Transaction transaction) {
         this.transactionRepository.save(transaction);
+    }
+
+    public Transaction readDto(TransactionDto transactionDto, User user) {
+        Transaction transaction = new Transaction();
+        transaction.setUser(user);
+        transaction.setDescription(transactionDto.getDescription());
+        transaction.setAmount(transactionDto.getAmount());
+        transaction.setBudgetType(transactionDto.getBudgetType());
+        return transaction;
     }
 }
