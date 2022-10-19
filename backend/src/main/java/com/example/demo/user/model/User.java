@@ -126,6 +126,10 @@ public class User {
         this.roles = roles;
     }
 
+    public void addTransaction(Transaction transaction) {
+        this.transactions.add(transaction);
+    }
+
     @Override
     public String toString() {
         return "User{" +

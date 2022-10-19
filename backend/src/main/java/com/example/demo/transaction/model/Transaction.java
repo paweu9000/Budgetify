@@ -32,6 +32,7 @@ public class Transaction {
     private User user;
 
     public Transaction() {
+        this.date = LocalDate.now();
     }
 
     public Transaction(String description, BudgetType budgetType, double amount, User user) {
@@ -76,5 +77,25 @@ public class Transaction {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", budgetType=" + budgetType +
+                ", amount=" + amount +
+                ", date=" + date +
+                ", user=" + user.getUsername() +
+                '}';
     }
 }
