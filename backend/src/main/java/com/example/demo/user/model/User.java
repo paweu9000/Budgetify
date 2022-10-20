@@ -130,6 +130,42 @@ public class User {
         this.transactions.add(transaction);
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public double getIncome() {
+        return income;
+    }
+
+    public void setIncome(double income) {
+        this.income = income;
+    }
+
+    public double getLoan() {
+        return loan;
+    }
+
+    public void setLoan(double loan) {
+        this.loan = loan;
+    }
+
+    public double getSavings() {
+        return savings;
+    }
+
+    public void setSavings(double savings) {
+        this.savings = savings;
+    }
+
+    public double getSpendings() {
+        return spendings;
+    }
+
+    public void setSpendings(double spendings) {
+        this.spendings = spendings;
+    }
+
     @Override
     public String toString() {
         return "User{" +
