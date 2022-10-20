@@ -46,6 +46,7 @@ public class TransactionController {
         User user = userService.findByUsername(username);
         Transaction transaction = transactionService.readDto(transactionDto, user);
         transactionService.saveTransaction(transaction);
+        userService.updateUserBalance(user, transactionDto);
         return new ResponseEntity<>(transaction.toString(), HttpStatus.OK);
     }
 }
