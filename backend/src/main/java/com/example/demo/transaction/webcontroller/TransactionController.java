@@ -29,9 +29,8 @@ public class TransactionController {
         this.userService = userService;
     }
 
-    @GetMapping("/{username}/{transactionId}")
-    public ResponseEntity<String> getTransaction(@PathVariable("username") String username,
-                                                 @PathVariable("transactionId") long transactionId,
+    @GetMapping("/{transactionId}")
+    public ResponseEntity<String> getTransaction(@PathVariable("transactionId") long transactionId,
                                                  Principal principal) {
         Transaction transaction = transactionService.findById(transactionId);
         if(transaction.getUser().getUsername().equals(principal.getName())) {
