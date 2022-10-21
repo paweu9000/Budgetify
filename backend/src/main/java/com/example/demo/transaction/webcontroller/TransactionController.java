@@ -15,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -48,5 +50,13 @@ public class TransactionController {
         transactionService.saveTransaction(transaction);
         userService.updateUserBalance(user, transactionDto);
         return new ResponseEntity<>(transaction.toString(), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<String> getAllTransactions(@CurrentSecurityContext(expression = "authentication?.name")
+                                                     String username) {
+        User user = userService.findByUsername(username);
+        List<Transaction> transactions = transactionService.findAllByUser(user);
+        return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
     }
 }
