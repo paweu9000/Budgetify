@@ -6,6 +6,10 @@ import com.example.demo.user.model.User;
 import com.example.demo.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 @Service
 public class UserService {
 
@@ -27,13 +31,29 @@ public class UserService {
         this.userRepository.save(user);
     }
 
+    public void deductSpendingsFromBalance(User user, Double amount) {
+        double updatedBalance = user.getBalance() - amount;
+        double formattedUpdatedBalance = round(updatedBalance, 2);
+        user.setBalance(formattedUpdatedBalance);
+    }
+
+    public double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException("Parameter places cannot be less than 0!");
+        BigDecimal bigDecimal = BigDecimal.valueOf(value);
+        bigDecimal = bigDecimal.setScale(places, RoundingMode.HALF_UP);
+        return bigDecimal.doubleValue();
+    }
+
     public void updateUserBalance(User user, TransactionDto transactionDto) {
         BudgetType type = transactionDto.getBudgetType();
-        switch(type) {
+        switch (type) {
             case LOAN -> user.setLoan(user.getLoan() + transactionDto.getAmount());
             case INCOME -> user.setIncome(user.getIncome() + transactionDto.getAmount());
             case SAVINGS -> user.setSavings(user.getSavings() + transactionDto.getAmount());
-            case SPENDINGS -> user.setSpendings(user.getSpendings() + transactionDto.getAmount());
+            case SPENDINGS -> {
+                user.setSpendings(user.getSpendings() + transactionDto.getAmount());
+                deductSpendingsFromBalance(user, transactionDto.getAmount());
+            }
             default -> throw new RuntimeException("Transaction has wrong type parameter!");
         }
         saveUser(user);
