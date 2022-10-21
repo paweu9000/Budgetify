@@ -31,8 +31,14 @@ public class UserService {
         this.userRepository.save(user);
     }
 
-    public void deductSpendingsFromBalance(User user, Double amount) {
+    private void deductSpendingsFromBalance(User user, Double amount) {
         double updatedBalance = user.getBalance() - amount;
+        double formattedUpdatedBalance = round(updatedBalance, 2);
+        user.setBalance(formattedUpdatedBalance);
+    }
+
+    private void addIncomeToBalance(User user, Double amount) {
+        double updatedBalance = user.getBalance() + amount;
         double formattedUpdatedBalance = round(updatedBalance, 2);
         user.setBalance(formattedUpdatedBalance);
     }
@@ -48,7 +54,10 @@ public class UserService {
         BudgetType type = transactionDto.getBudgetType();
         switch (type) {
             case LOAN -> user.setLoan(user.getLoan() + transactionDto.getAmount());
-            case INCOME -> user.setIncome(user.getIncome() + transactionDto.getAmount());
+            case INCOME -> {
+                user.setIncome(user.getIncome() + transactionDto.getAmount());
+                addIncomeToBalance(user, transactionDto.getAmount());
+            }
             case SAVINGS -> user.setSavings(user.getSavings() + transactionDto.getAmount());
             case SPENDINGS -> {
                 user.setSpendings(user.getSpendings() + transactionDto.getAmount());
