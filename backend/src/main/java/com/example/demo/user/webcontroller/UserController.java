@@ -42,4 +42,11 @@ public class UserController {
         User user = userService.findByUsername(username);
         return new ResponseEntity<>(user.getBalance(), HttpStatus.OK);
     }
+
+    @GetMapping("/savings")
+    public ResponseEntity<Double> getSavings(@CurrentSecurityContext(expression = "authentication?.name")
+                                                 String username) {
+        User user = userService.findByUsername(username);
+        return new ResponseEntity<>(user.getSavings(), HttpStatus.OK);
+    }
 }
