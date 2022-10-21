@@ -5,21 +5,15 @@ import com.example.demo.transaction.model.Transaction;
 import com.example.demo.transaction.service.TransactionService;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.UserService;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping("api/transaction")
 public class TransactionController {
 
