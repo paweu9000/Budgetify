@@ -6,8 +6,11 @@ import com.example.demo.transaction.repository.TransactionRepository;
 import com.example.demo.user.model.User;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -42,5 +45,13 @@ public class TransactionService {
         transaction.setAmount(transactionDto.getAmount());
         transaction.setBudgetType(transactionDto.getBudgetType());
         return transaction;
+    }
+
+    public List<Transaction> findAllByUser(User user) {
+        List<Transaction> transactions = transactionRepository.findAll()
+                .stream()
+                .filter(transaction -> transaction.getUser()
+                        .equals(user)).toList();
+        return transactions;
     }
 }

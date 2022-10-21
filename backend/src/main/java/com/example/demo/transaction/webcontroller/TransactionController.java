@@ -5,19 +5,15 @@ import com.example.demo.transaction.model.Transaction;
 import com.example.demo.transaction.service.TransactionService;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.UserService;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.UUID;
+import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("api/transaction")
 public class TransactionController {
 
@@ -48,5 +44,13 @@ public class TransactionController {
         transactionService.saveTransaction(transaction);
         userService.updateUserBalance(user, transactionDto);
         return new ResponseEntity<>(transaction.toString(), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<String> getAllTransactions(@CurrentSecurityContext(expression = "authentication?.name")
+                                                     String username) {
+        User user = userService.findByUsername(username);
+        List<Transaction> transactions = transactionService.findAllByUser(user);
+        return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
     }
 }
