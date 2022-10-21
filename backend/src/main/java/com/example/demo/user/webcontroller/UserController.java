@@ -31,4 +31,11 @@ public class UserController {
         User user = userService.findByUsername(username);
         return new ResponseEntity<>(user.getEmail(), HttpStatus.OK);
     }
+
+    @GetMapping("/balance")
+    public ResponseEntity<Double> getBalance(@CurrentSecurityContext(expression = "authentication?.name")
+                                                 String username) {
+        User user = userService.findByUsername(username);
+        return new ResponseEntity<>(user.getBalance(), HttpStatus.OK);
+    }
 }
