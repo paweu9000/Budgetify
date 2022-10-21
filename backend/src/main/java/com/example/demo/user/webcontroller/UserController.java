@@ -1,5 +1,6 @@
 package com.example.demo.user.webcontroller;
 
+import com.example.demo.user.model.User;
 import com.example.demo.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,5 +23,12 @@ public class UserController {
     public ResponseEntity<String> getUsername(@CurrentSecurityContext(expression = "authentication?.name")
                                                   String username) {
         return new ResponseEntity<>(username, HttpStatus.OK);
+    }
+
+    @GetMapping("/email")
+    public ResponseEntity<String> getEmail(@CurrentSecurityContext(expression = "authentication?.name")
+                                              String username) {
+        User user = userService.findByUsername(username);
+        return new ResponseEntity<>(user.getEmail(), HttpStatus.OK);
     }
 }
