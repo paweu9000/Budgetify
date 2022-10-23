@@ -49,4 +49,11 @@ public class UserController {
         User user = userService.findByUsername(username);
         return new ResponseEntity<>(user.getSavings(), HttpStatus.OK);
     }
+
+    @GetMapping("/loan")
+    public ResponseEntity<Double> getLoan(@CurrentSecurityContext(expression = "authentication?.name")
+                                                String username) {
+        User user = userService.findByUsername(username);
+        return new ResponseEntity<>(user.getLoan(), HttpStatus.OK);
+    }
 }
