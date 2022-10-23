@@ -63,4 +63,11 @@ public class UserController {
         User user = userService.findByUsername(username);
         return new ResponseEntity<>(user.getSpendings(), HttpStatus.OK);
     }
+
+    @GetMapping("/income")
+    public ResponseEntity<Double> getIncome(@CurrentSecurityContext(expression = "authentication?.name")
+                                               String username){
+        User user = userService.findByUsername(username);
+        return new ResponseEntity<>(user.getIncome(), HttpStatus.OK);
+    }
 }
