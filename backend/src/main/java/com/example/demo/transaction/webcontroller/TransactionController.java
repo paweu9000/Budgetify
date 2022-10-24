@@ -78,4 +78,12 @@ public class TransactionController {
         List<Transaction> transactions = transactionService.findAllByUserAndType(user, BudgetType.SAVINGS);
         return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
     }
+
+    @GetMapping("/income/all")
+    public ResponseEntity<String> getAllIncomeTransactions(@CurrentSecurityContext(expression = "authentication?.name")
+                                                            String username) {
+        User user = userService.findByUsername(username);
+        List<Transaction> transactions = transactionService.findAllByUserAndType(user, BudgetType.INCOME);
+        return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
+    }
 }
