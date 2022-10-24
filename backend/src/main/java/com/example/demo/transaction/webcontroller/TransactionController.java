@@ -1,6 +1,7 @@
 package com.example.demo.transaction.webcontroller;
 
 import com.example.demo.dto.TransactionDto;
+import com.example.demo.enums.BudgetType;
 import com.example.demo.transaction.model.Transaction;
 import com.example.demo.transaction.service.TransactionService;
 import com.example.demo.user.model.User;
@@ -51,6 +52,14 @@ public class TransactionController {
                                                      String username) {
         User user = userService.findByUsername(username);
         List<Transaction> transactions = transactionService.findAllByUser(user);
+        return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
+    }
+
+    @GetMapping("/loan/all")
+    public ResponseEntity<String> getAllLoanTransactions(@CurrentSecurityContext(expression = "authentication?.name")
+                                                             String username) {
+        User user = userService.findByUsername(username);
+        List<Transaction> transactions = transactionService.findAllByUserAndType(user, BudgetType.LOAN);
         return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
     }
 }

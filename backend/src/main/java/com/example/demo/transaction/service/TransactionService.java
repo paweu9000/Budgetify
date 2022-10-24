@@ -1,6 +1,7 @@
 package com.example.demo.transaction.service;
 
 import com.example.demo.dto.TransactionDto;
+import com.example.demo.enums.BudgetType;
 import com.example.demo.transaction.model.Transaction;
 import com.example.demo.transaction.repository.TransactionRepository;
 import com.example.demo.user.model.User;
@@ -45,10 +46,16 @@ public class TransactionService {
     }
 
     public List<Transaction> findAllByUser(User user) {
-        List<Transaction> transactions = transactionRepository.findAll()
+        return transactionRepository.findAll()
                 .stream()
                 .filter(transaction -> transaction.getUser()
                         .equals(user)).toList();
-        return transactions;
+    }
+
+    public List<Transaction> findAllByUserAndType(User user, BudgetType budgetType) {
+        return transactionRepository.findAll()
+                .stream()
+                .filter(transaction -> transaction.getUser().equals(user)
+                        && transaction.getBudgetType() == budgetType).toList();
     }
 }
