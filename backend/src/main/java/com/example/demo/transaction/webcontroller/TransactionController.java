@@ -55,6 +55,13 @@ public class TransactionController {
         return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
     }
 
+    @GetMapping("/all/{days}")
+    public ResponseEntity<String> getTransactionsByDays(@PathVariable("days") int days, Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        List<Transaction> transactions = transactionService.findAllTransactionsByDays(user, days);
+        return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
+    }
+
     @GetMapping("/loan/all")
     public ResponseEntity<String> getAllLoanTransactions(@CurrentSecurityContext(expression = "authentication?.name")
                                                              String username) {
