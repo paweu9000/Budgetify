@@ -7,8 +7,10 @@ import com.example.demo.transaction.repository.TransactionRepository;
 import com.example.demo.user.model.User;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -57,5 +59,13 @@ public class TransactionService {
                 .stream()
                 .filter(transaction -> transaction.getUser().equals(user)
                         && transaction.getBudgetType() == budgetType).toList();
+    }
+
+    public List<Transaction> findAllWeeklyTransactions(User user) {
+        long currentDay = LocalDate.now().toEpochDay();
+        return transactionRepository.findAll()
+                .stream()
+                .filter(transaction -> transaction.getUser().equals(user) &&
+                        currentDay - transaction.getDate().toEpochDay() <= 7).toList();
     }
 }
