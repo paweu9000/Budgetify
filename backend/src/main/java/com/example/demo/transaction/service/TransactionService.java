@@ -61,11 +61,11 @@ public class TransactionService {
                         && transaction.getBudgetType() == budgetType).toList();
     }
 
-    public List<Transaction> findAllWeeklyTransactions(User user) {
+    public List<Transaction> findAllTransactionsByDays(User user, int days) {
         long currentDay = LocalDate.now().toEpochDay();
         return transactionRepository.findAll()
                 .stream()
                 .filter(transaction -> transaction.getUser().equals(user) &&
-                        currentDay - transaction.getDate().toEpochDay() <= 7).toList();
+                        currentDay - transaction.getDate().toEpochDay() <= days).toList();
     }
 }
