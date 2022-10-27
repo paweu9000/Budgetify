@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -39,7 +40,8 @@ public class TransactionController {
 
     @PostMapping("")
     public ResponseEntity<String> createTransaction(@CurrentSecurityContext(expression = "authentication?.name")
-                                                    String username, @RequestBody TransactionDto transactionDto) {
+                                                    String username,
+                                                    @Valid @RequestBody TransactionDto transactionDto) {
         User user = userService.findByUsername(username);
         Transaction transaction = transactionService.readDto(transactionDto, user);
         transactionService.saveTransaction(transaction);
