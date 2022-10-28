@@ -44,7 +44,19 @@ class BudgetifyApplicationTests {
 
 	@Test
 	public void unauthorizedUserPostTransactionRequest() throws Exception {
-		mvc.perform(post("/api/transaction/all"))
+		mvc.perform(post("/api/transaction"))
+				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	public void unauthorizedUserGetAllTransactionsByDayRequest() throws Exception {
+		mvc.perform(get("/api/transaction/all/7"))
+				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	public void unauthorizedUserGetAllLoanTransactionsRequest() throws Exception {
+		mvc.perform(get("/api/loan/all"))
 				.andExpect(status().isUnauthorized());
 	}
 
