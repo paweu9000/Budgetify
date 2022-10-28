@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class BudgetifyApplicationTests {
+class UnauthorizedUserTests {
 
 	@Autowired
 	private MockMvc mvc;
@@ -57,6 +57,24 @@ class BudgetifyApplicationTests {
 	@Test
 	public void unauthorizedUserGetAllLoanTransactionsRequest() throws Exception {
 		mvc.perform(get("/api/loan/all"))
+				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	public void unauthorizedUserGetAllSpendingsTransactionsRequest() throws Exception {
+		mvc.perform(get("/api/spendings/all"))
+				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	public void unauthorizedUserGetAllSavingsTransactionsRequest() throws Exception {
+		mvc.perform(get("/api/savings/all"))
+				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	public void unauthorizedUserGetAllIncomeTransactionsRequest() throws Exception {
+		mvc.perform(get("/api/income/all"))
 				.andExpect(status().isUnauthorized());
 	}
 
