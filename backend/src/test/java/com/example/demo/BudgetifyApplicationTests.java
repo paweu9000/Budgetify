@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -20,6 +21,30 @@ class BudgetifyApplicationTests {
 	@Test
 	public void unauthorizedUserGetEmailRequest() throws Exception {
 		mvc.perform(get("/api/user/email"))
+				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	public void unauthorizedUserGetUsernameRequest() throws Exception {
+		mvc.perform(get("/api/user/username"))
+				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	public void unauthorizedUserGetTransactionRequest() throws Exception {
+		mvc.perform(get("/api/transaction/1"))
+				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	public void unauthorizedUserGetAllTransactionsRequest() throws Exception {
+		mvc.perform(get("/api/transaction/all"))
+				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	public void unauthorizedUserPostTransactionRequest() throws Exception {
+		mvc.perform(post("/api/transaction/all"))
 				.andExpect(status().isUnauthorized());
 	}
 
