@@ -42,6 +42,7 @@ class UnauthorizedUserTests {
 				.andExpect(status().isUnauthorized());
 	}
 
+
 	@Test
 	public void unauthorizedUserGetTransactionRequest() throws Exception {
 		mvc.perform(get("/api/transaction/1"))
