@@ -26,9 +26,22 @@ class UnauthorizedUserTests {
 
 	@Test
 	public void unauthorizedUserGetUsernameRequest() throws Exception {
-		mvc.perform(get("/api/user/username"))
+		mvc.perform(get("/api/user/name"))
 				.andExpect(status().isUnauthorized());
 	}
+
+	@Test
+	public void unauthorizedUserGetBalanceRequest() throws Exception {
+		mvc.perform(get("/api/user/balance"))
+				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	public void unauthorizedUserGetSavingsRequest() throws Exception {
+		mvc.perform(get("/api/user/savings"))
+				.andExpect(status().isUnauthorized());
+	}
+
 
 	@Test
 	public void unauthorizedUserGetTransactionRequest() throws Exception {
