@@ -61,6 +61,18 @@ class UnauthorizedUserTests {
 	}
 
 	@Test
+	public void unauthorizedUserRegisterRequestWithInvalidData() throws Exception {
+		mvc.perform(post("/api/auth/signup"))
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	public void authorizedUserLoginRequestWithInvalidData() throws Exception {
+		mvc.perform(post("/api/auth/signin"))
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
 	public void unauthorizedUserGetTransactionRequest() throws Exception {
 		mvc.perform(get("/api/transaction/1"))
 				.andExpect(status().isUnauthorized());
