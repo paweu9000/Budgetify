@@ -61,4 +61,34 @@ public class AuthenticationTests {
                         "\"email\": \"test@email.com\", \"password\": \"test_password\"}");
         mvc.perform(mockRequest).andExpect(status().isBadRequest());
     }
+
+    @Test
+    @WithAnonymousUser
+    public void loginUserWithValidUsernameTest() throws Exception {
+        MockHttpServletRequestBuilder mockRequest = post("/api/auth/signin")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{\"usernameOrEmail\": \"test_username\", \"password\": \"test_password\"}");
+        mvc.perform(mockRequest).andExpect(status().isOk());
+    }
+
+    @Test
+    @WithAnonymousUser
+    public void loginUserWithValidEmailTest() throws Exception {
+        MockHttpServletRequestBuilder mockRequest = post("/api/auth/signin")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{\"usernameOrEmail\": \"test@email.com\", \"password\": \"test_password\"}");
+        mvc.perform(mockRequest).andExpect(status().isOk());
+    }
+
+    @Test
+    @WithAnonymousUser
+    public void loginUserWithInvalidDataTest() throws Exception {
+        MockHttpServletRequestBuilder mockRequest = post("/api/auth/signin")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{\"usernameOrEmail\": \"\", \"password\": \"test_password\"}");
+        mvc.perform(mockRequest).andExpect(status().isBadRequest());
+    }
 }
