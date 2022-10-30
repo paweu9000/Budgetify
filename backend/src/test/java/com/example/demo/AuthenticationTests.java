@@ -91,4 +91,24 @@ public class AuthenticationTests {
                 .content("{\"usernameOrEmail\": \"\", \"password\": \"test_password\"}");
         mvc.perform(mockRequest).andExpect(status().isBadRequest());
     }
+
+    @Test
+    @WithAnonymousUser
+    public void loginUserWithInvalidPasswordTest() throws Exception {
+        MockHttpServletRequestBuilder mockRequest = post("/api/auth/signin")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{\"usernameOrEmail\": \"test_username\", \"password\": \"\"}");
+        mvc.perform(mockRequest).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithAnonymousUser
+    public void loginUserWithBlankPasswordTest() throws Exception {
+        MockHttpServletRequestBuilder mockRequest = post("/api/auth/signin")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{\"usernameOrEmail\": \"test_username\", \"password\": \"   \"}");
+        mvc.perform(mockRequest).andExpect(status().isBadRequest());
+    }
 }
