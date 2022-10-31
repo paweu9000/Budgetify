@@ -71,4 +71,28 @@ public class TransactionTests {
     public void getAllTransactionByDaysTest() throws Exception {
         mvc.perform(get("/api/transaction/all/7")).andExpect(status().isOk());
     }
+
+    @Test
+    @WithUserDetails("test@email.com")
+    public void getAllSavingsTransactionTest() throws Exception {
+        mvc.perform(get("/api/transaction/savings/all")).andExpect(status().isOk());
+    }
+
+    @Test
+    @WithUserDetails("test@email.com")
+    public void getAllLoanTransactionTest() throws Exception {
+        mvc.perform(get("/api/transaction/loan/all")).andExpect(status().isOk());
+    }
+
+    @Test
+    @WithUserDetails("test@email.com")
+    public void getAllIncomeTransactionTest() throws Exception {
+        mvc.perform(get("/api/transaction/income/all")).andExpect(status().isOk());
+    }
+
+    @Test
+    @WithUserDetails("test@email.com")
+    public void getAllSpendingsTransactionTest() throws Exception {
+        mvc.perform(get("/api/transaction/spendings/all")).andExpect(status().isOk());
+    }
 }
