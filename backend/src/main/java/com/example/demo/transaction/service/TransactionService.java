@@ -30,7 +30,7 @@ public class TransactionService {
         if(transaction.isPresent()) {
             return transaction.get();
         } else {
-            throw new RuntimeException("Transaction with id: " + id + " does not exist!");
+            return new Transaction();
         }
     }
 
