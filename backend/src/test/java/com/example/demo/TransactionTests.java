@@ -59,4 +59,16 @@ public class TransactionTests {
     public void getTransactionNullTest() throws Exception {
         mvc.perform(get("/api/transaction/9999")).andExpect(status().isBadRequest());
     }
+
+    @Test
+    @WithUserDetails("test@email.com")
+    public void getAllTransactionsTest() throws Exception {
+        mvc.perform(get("/api/transaction/all")).andExpect(status().isOk());
+    }
+
+    @Test
+    @WithUserDetails("test@email.com")
+    public void getAllTransactionByDaysTest() throws Exception {
+        mvc.perform(get("/api/transaction/all/7")).andExpect(status().isOk());
+    }
 }
