@@ -36,4 +36,21 @@ public class TransactionTests {
                         "\"amount\": \"200.0\"}");
         mvc.perform(mockRequest).andExpect(status().isOk());
     }
+
+    @Test
+    @WithUserDetails("test@email.com")
+    public void invalidTransactionPostTest() throws Exception {
+        MockHttpServletRequestBuilder mockRequest = post("/api/transaction")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{\"description\": \" \", \"budgetType\": \"\"," +
+                        "\"amount\": \"\"}");
+        mvc.perform(mockRequest).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithUserDetails("test@email.com")
+    public void getTransactionTest() throws Exception {
+        mvc.perform(get("/api/transaction/1")).andExpect(status().isOk());
+    }
 }
