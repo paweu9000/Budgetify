@@ -53,4 +53,10 @@ public class TransactionTests {
     public void getTransactionTest() throws Exception {
         mvc.perform(get("/api/transaction/1")).andExpect(status().isOk());
     }
+
+    @Test
+    @WithUserDetails("test@email.com")
+    public void getTransactionNullTest() throws Exception {
+        mvc.perform(get("/api/transaction/9999")).andExpect(status().isBadRequest());
+    }
 }
