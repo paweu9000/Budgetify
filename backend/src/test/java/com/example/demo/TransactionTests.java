@@ -50,8 +50,14 @@ public class TransactionTests {
 
     @Test
     @WithUserDetails("test@email.com")
-    public void getTransactionTest() throws Exception {
-        mvc.perform(get("/api/transaction/1")).andExpect(status().isOk());
+    public void getCurrentUserTransactionTest() throws Exception {
+        mvc.perform(get("/api/transaction/25")).andExpect(status().isOk());
+    }
+
+    @Test
+    @WithUserDetails("test@email.com")
+    public void getOtherUserTransactionTest() throws Exception {
+        mvc.perform(get("/api/transaction/1")).andExpect(status().isForbidden());
     }
 
     @Test
