@@ -2,6 +2,7 @@ package com.example.demo.user.service;
 
 import com.example.demo.dto.TransactionDto;
 import com.example.demo.enums.BudgetType;
+import com.example.demo.transaction.model.Transaction;
 import com.example.demo.user.model.User;
 import com.example.demo.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -66,5 +67,24 @@ public class UserService {
         }
         saveUser(user);
     }
+
+    public void updateUserBeforeTransactionRemoval(User user, Transaction transaction) {
+        BudgetType type = transaction.getBudgetType();
+        switch (type) {
+            case LOAN -> user.setLoan(user.getLoan() - transaction.getAmount());
+            case INCOME -> {
+                user.setIncome(user.getIncome() - transaction.getAmount());
+                deductSpendingsFromBalance(user, transaction.getAmount());
+            }
+            case SAVINGS -> user.setSavings(user.getSavings() - transaction.getAmount());
+            case SPENDINGS -> {
+                user.setSpendings(user.getSpendings() - transaction.getAmount());
+                addIncomeToBalance(user, transaction.getAmount());
+            }
+            default -> throw new RuntimeException("Transaction has wrong type parameter!");
+        }
+        saveUser(user);
+    }
+
 
 }

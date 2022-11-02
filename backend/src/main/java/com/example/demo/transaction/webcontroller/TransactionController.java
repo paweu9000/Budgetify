@@ -47,6 +47,7 @@ public class TransactionController {
         if(transaction.getUser() == null) {
             return new ResponseEntity<>("Transaction does not exist!", HttpStatus.BAD_REQUEST);
         } else if (transaction.getUser().getUsername().equals(principal.getName())){
+            userService.updateUserBeforeTransactionRemoval(transaction.getUser(), transaction);
             transactionService.deleteTransaction(transaction);
             return new ResponseEntity<>("Transaction successfully deleted", HttpStatus.OK);
         } else {
