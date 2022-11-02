@@ -34,6 +34,10 @@ public class TransactionService {
         }
     }
 
+    public void deleteTransaction(Transaction transaction) {
+        transactionRepository.delete(transaction);
+    }
+
     public void saveTransaction(Transaction transaction) {
         this.transactionRepository.save(transaction);
     }
