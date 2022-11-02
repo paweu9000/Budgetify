@@ -40,6 +40,20 @@ public class TransactionController {
         }
     }
 
+    @DeleteMapping("/{transactionId}")
+    public ResponseEntity<String> deleteTransaction(@PathVariable("transactionId") long transactionId,
+                                                    Principal principal) {
+        Transaction transaction = transactionService.findById(transactionId);
+        if(transaction.getUser() == null) {
+            return new ResponseEntity<>("Transaction does not exist!", HttpStatus.BAD_REQUEST);
+        } else if (transaction.getUser().getUsername().equals(principal.getName())){
+            transactionService.deleteTransaction(transaction);
+            return new ResponseEntity<>("Transaction successfully deleted", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("You cannot access other users data!", HttpStatus.FORBIDDEN);
+        }
+    }
+
     @PostMapping("")
     public ResponseEntity<String> createTransaction(@CurrentSecurityContext(expression = "authentication?.name")
                                                     String username,
