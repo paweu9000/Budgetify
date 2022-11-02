@@ -72,4 +72,12 @@ public class TransactionService {
                 .filter(transaction -> transaction.getUser().equals(user) &&
                         currentDay - transaction.getDate().toEpochDay() <= days).toList();
     }
+
+    public void editTransaction(Transaction transaction, TransactionDto transactionDto) {
+        transaction.setBudgetType(transactionDto.getBudgetType());
+        transaction.setAmount(transactionDto.getAmount());
+        transaction.setDescription(transactionDto.getDescription());
+        transactionRepository.save(transaction);
+    }
+
 }

@@ -55,6 +55,23 @@ public class TransactionController {
         }
     }
 
+    @PutMapping("/{transactionId}")
+    public ResponseEntity<String> editTransaction(@RequestBody @Valid TransactionDto transactionDto,
+                                                  @PathVariable("transactionId") long transactionId,
+                                                  Principal principal) {
+        Transaction transaction = transactionService.findById(transactionId);
+        if(transaction.getUser() == null) {
+            return new ResponseEntity<>("Transaction does not exist!", HttpStatus.BAD_REQUEST);
+        } else if (transaction.getUser().getUsername().equals(principal.getName())){
+            userService.updateUserBeforeTransactionRemoval(transaction.getUser(), transaction);
+            transactionService.editTransaction(transaction, transactionDto);
+            userService.updateUserBalance(transaction.getUser(), transactionDto);
+            return new ResponseEntity<>("Transaction successfully edited", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("You cannot access other users data!", HttpStatus.FORBIDDEN);
+        }
+    }
+
     @PostMapping("")
     public ResponseEntity<String> createTransaction(@CurrentSecurityContext(expression = "authentication?.name")
                                                     String username,
