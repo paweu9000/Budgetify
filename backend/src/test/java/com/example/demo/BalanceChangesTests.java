@@ -61,4 +61,31 @@ public class BalanceChangesTests {
         Double balanceAfterTransaction = Double.parseDouble(resultAfter.getResponse().getContentAsString());
         assertEquals(balanceBeforeTransaction, balanceAfterTransaction);
     }
+
+    @Test
+    @WithUserDetails("test@email.com")
+    public void BalanceChangeAfterEditingTransactionTest() throws Exception {
+        MvcResult resultBefore = mvc.perform(get("/api/user/balance")).andReturn();
+        Double balanceBeforeTransaction = Double.parseDouble(resultBefore.getResponse().getContentAsString());
+        MockHttpServletRequestBuilder mockRequest = post("/api/transaction")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{\"description\": \"test_description\", \"budgetType\": \"INCOME\"," +
+                        "\"amount\": \"200.0\"}");
+        MvcResult response = mvc.perform(mockRequest).andExpect(status().isOk()).andReturn();
+        String json = response.getResponse().getContentAsString();
+        int indexOfId = json.indexOf("=");
+        int endIndexOfId = json.indexOf(",");
+        String idOfTransaction = json.substring(indexOfId+1, endIndexOfId);
+        System.out.println(idOfTransaction);
+        MockHttpServletRequestBuilder mockRequestPut = put("/api/transaction/" + idOfTransaction)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{\"description\": \"test_description_after\", \"budgetType\": \"INCOME\"," +
+                        "\"amount\": \"100.0\"}");
+        mvc.perform(mockRequestPut).andExpect(status().isOk());
+        MvcResult resultAfter = mvc.perform(get("/api/user/balance")).andReturn();
+        Double balanceAfterTransaction = Double.parseDouble(resultAfter.getResponse().getContentAsString());
+        assertEquals(balanceBeforeTransaction + 100, balanceAfterTransaction);
+    }
 }
