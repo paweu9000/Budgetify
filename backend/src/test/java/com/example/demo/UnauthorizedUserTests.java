@@ -6,8 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -117,6 +116,12 @@ class UnauthorizedUserTests {
 	@Test
 	public void unauthorizedUserGetAllIncomeTransactionsRequest() throws Exception {
 		mvc.perform(get("/api/income/all"))
+				.andExpect(status().isUnauthorized());
+	}
+
+	@Test
+	public void unauthorizedUserDeleteTransactionRequest() throws Exception {
+		mvc.perform(delete("/api/transaction/80"))
 				.andExpect(status().isUnauthorized());
 	}
 
