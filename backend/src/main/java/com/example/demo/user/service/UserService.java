@@ -2,7 +2,6 @@ package com.example.demo.user.service;
 
 import com.example.demo.dto.TransactionDto;
 import com.example.demo.enums.BudgetType;
-import com.example.demo.enums.TransactionActionType;
 import com.example.demo.transaction.model.Transaction;
 import com.example.demo.user.model.User;
 import com.example.demo.user.repository.UserRepository;
