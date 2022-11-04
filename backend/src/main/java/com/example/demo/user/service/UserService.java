@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -21,11 +22,16 @@ public class UserService {
     }
 
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email).get();
+        return unwrapUser(userRepository.findByEmail(email));
     }
 
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username).get();
+        return unwrapUser(userRepository.findByUsername(username));
+    }
+
+    public User unwrapUser(Optional<User> user) {
+        if(user.isEmpty()) throw new RuntimeException("User does not exist!");
+        return user.get();
     }
 
     public void saveUser(User user) {
