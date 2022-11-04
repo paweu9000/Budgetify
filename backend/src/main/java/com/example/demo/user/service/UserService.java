@@ -2,6 +2,7 @@ package com.example.demo.user.service;
 
 import com.example.demo.dto.TransactionDto;
 import com.example.demo.enums.BudgetType;
+import com.example.demo.enums.TransactionActionType;
 import com.example.demo.transaction.model.Transaction;
 import com.example.demo.user.model.User;
 import com.example.demo.user.repository.UserRepository;
@@ -84,6 +85,16 @@ public class UserService {
             default -> throw new RuntimeException("Transaction has wrong type parameter!");
         }
         saveUser(user);
+    }
+
+    public void updateUserBalance(User user, double amount,
+                                  BudgetType budgetType,
+                                  TransactionActionType actionType) {
+        switch (actionType) {
+            case POST -> System.out.println("post");
+            case DELETE -> System.out.println("delete");
+            case PUT -> System.out.println("put");
+        }
     }
 
 
