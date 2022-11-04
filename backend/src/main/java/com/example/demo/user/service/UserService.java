@@ -34,20 +34,19 @@ public class UserService {
 
     private void deductSpendingsFromBalance(User user, Double amount) {
         double updatedBalance = user.getBalance() - amount;
-        double formattedUpdatedBalance = round(updatedBalance, 2);
+        double formattedUpdatedBalance = round(updatedBalance);
         user.setBalance(formattedUpdatedBalance);
     }
 
     private void addIncomeToBalance(User user, Double amount) {
         double updatedBalance = user.getBalance() + amount;
-        double formattedUpdatedBalance = round(updatedBalance, 2);
+        double formattedUpdatedBalance = round(updatedBalance);
         user.setBalance(formattedUpdatedBalance);
     }
 
-    public double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException("Parameter places cannot be less than 0!");
+    private double round(double value) {
         BigDecimal bigDecimal = BigDecimal.valueOf(value);
-        bigDecimal = bigDecimal.setScale(places, RoundingMode.HALF_UP);
+        bigDecimal = bigDecimal.setScale(2, RoundingMode.HALF_UP);
         return bigDecimal.doubleValue();
     }
 
@@ -86,16 +85,5 @@ public class UserService {
         }
         saveUser(user);
     }
-
-    public void updateUserBalance(User user, double amount,
-                                  BudgetType budgetType,
-                                  TransactionActionType actionType) {
-        switch (actionType) {
-            case POST -> System.out.println("post");
-            case DELETE -> System.out.println("delete");
-            case PUT -> System.out.println("put");
-        }
-    }
-
 
 }
