@@ -26,11 +26,7 @@ public class TransactionService {
 
     public Transaction unwrapTransaction(long id) {
         Optional<Transaction> transaction = transactionRepository.findById(id);
-        if(transaction.isPresent()) {
-            return transaction.get();
-        } else {
-            return new Transaction();
-        }
+        return transaction.orElseGet(Transaction::new);
     }
 
     public void deleteTransaction(Transaction transaction) {
