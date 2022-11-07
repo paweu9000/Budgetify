@@ -1,5 +1,6 @@
 package com.example.demo.transaction.service;
 
+import com.example.demo.dao.TransactionDao;
 import com.example.demo.dto.TransactionDto;
 import com.example.demo.enums.BudgetType;
 import com.example.demo.transaction.model.Transaction;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -73,6 +75,16 @@ public class TransactionService {
         transaction.setAmount(transactionDto.getAmount());
         transaction.setDescription(transactionDto.getDescription());
         transactionRepository.save(transaction);
+    }
+
+    public TransactionDao toDao(Transaction transaction) {
+        TransactionDao transactionDao = new TransactionDao(transaction);
+        return transactionDao;
+    }
+
+    public List<TransactionDao> toDaoList(List<Transaction> transactions) {
+        List<TransactionDao> transactionDaoList = transactions.stream().map(this::toDao).toList();
+        return transactionDaoList;
     }
 
 }

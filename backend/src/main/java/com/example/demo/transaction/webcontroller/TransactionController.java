@@ -1,5 +1,6 @@
 package com.example.demo.transaction.webcontroller;
 
+import com.example.demo.dao.TransactionDao;
 import com.example.demo.dto.TransactionDto;
 import com.example.demo.enums.BudgetType;
 import com.example.demo.transaction.model.Transaction;
@@ -28,15 +29,15 @@ public class TransactionController {
     }
 
     @GetMapping("/{transactionId}")
-    public ResponseEntity<String> getTransaction(@PathVariable("transactionId") long transactionId,
-                                                 Principal principal) {
+    public ResponseEntity<TransactionDao> getTransaction(@PathVariable("transactionId") long transactionId,
+                                                         Principal principal) {
         Transaction transaction = transactionService.findById(transactionId);
         if(transaction.getUser() == null) {
-            return new ResponseEntity<>("Transaction does not exist!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else if (transaction.getUser().getUsername().equals(principal.getName())){
-            return new ResponseEntity<>(transaction.toString(), HttpStatus.OK);
+            return new ResponseEntity<>(transactionService.toDao(transaction), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("You cannot access other users data!", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
 
@@ -84,34 +85,38 @@ public class TransactionController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<String> getAllTransactions(@CurrentSecurityContext(expression = "authentication?.name")
+    public ResponseEntity<List<TransactionDao>> getAllTransactions(@CurrentSecurityContext(expression = "authentication?.name")
                                                      String username) {
         User user = userService.findByUsername(username);
-        List<Transaction> transactions = transactionService.findAllByUser(user);
-        return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
+        List<TransactionDao> transactions = transactionService.toDaoList(transactionService.findAllByUser(user));
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
     @GetMapping("/all/{days}")
-    public ResponseEntity<String> getTransactionsByDays(@PathVariable("days") int days, Principal principal) {
+    public ResponseEntity<List<TransactionDao>> getTransactionsByDays(@PathVariable("days") int days, Principal principal) {
         User user = userService.findByUsername(principal.getName());
-        List<Transaction> transactions = transactionService.findAllTransactionsByDays(user, days);
-        return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
+        List<TransactionDao> transactions = transactionService.toDaoList
+                (transactionService.findAllTransactionsByDays(user, days));
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
     @GetMapping("/loan/all")
-    public ResponseEntity<String> getAllLoanTransactions(@CurrentSecurityContext(expression = "authentication?.name")
+    public ResponseEntity<List<TransactionDao>> getAllLoanTransactions(@CurrentSecurityContext(expression = "authentication?.name")
                                                              String username) {
         User user = userService.findByUsername(username);
-        List<Transaction> transactions = transactionService.findAllByUserAndType(user, BudgetType.LOAN);
-        return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
+        List<TransactionDao> transactions = transactionService.toDaoList
+                (transactionService.findAllByUserAndType(user, BudgetType.LOAN));
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
     @GetMapping("/spendings/all")
-    public ResponseEntity<String> getAllSpendingsTransactions(@CurrentSecurityContext(expression = "authentication?.name")
+    public ResponseEntity<List<TransactionDao>> getAllSpendingsTransactions(
+            @CurrentSecurityContext(expression = "authentication?.name")
                                                          String username) {
         User user = userService.findByUsername(username);
-        List<Transaction> transactions = transactionService.findAllByUserAndType(user, BudgetType.SPENDINGS);
-        return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
+        List<TransactionDao> transactions = transactionService.toDaoList
+                (transactionService.findAllByUserAndType(user, BudgetType.SPENDINGS));
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
     @GetMapping("/savings/all")
