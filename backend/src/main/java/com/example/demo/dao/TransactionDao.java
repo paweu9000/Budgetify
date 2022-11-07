@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.enums.BudgetType;
+import com.example.demo.transaction.model.Transaction;
 
 import java.time.LocalDate;
 
@@ -13,11 +14,11 @@ public class TransactionDao {
     public TransactionDao() {
     }
 
-    public TransactionDao(String description, BudgetType budgetType, double amount, LocalDate date) {
-        this.description = description;
-        this.budgetType = budgetType;
-        this.amount = amount;
-        this.date = date;
+    public TransactionDao(Transaction transaction) {
+        this.description = transaction.getDescription();
+        this.budgetType = transaction.getBudgetType();
+        this.amount = transaction.getAmount();
+        this.date = transaction.getDate();
     }
 
     public String getDescription() {

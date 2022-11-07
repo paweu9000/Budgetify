@@ -1,5 +1,6 @@
 package com.example.demo.transaction.webcontroller;
 
+import com.example.demo.dao.TransactionDao;
 import com.example.demo.dto.TransactionDto;
 import com.example.demo.enums.BudgetType;
 import com.example.demo.transaction.model.Transaction;
@@ -28,13 +29,13 @@ public class TransactionController {
     }
 
     @GetMapping("/{transactionId}")
-    public ResponseEntity<Transaction> getTransaction(@PathVariable("transactionId") long transactionId,
-                                                 Principal principal) {
+    public ResponseEntity<TransactionDao> getTransaction(@PathVariable("transactionId") long transactionId,
+                                                         Principal principal) {
         Transaction transaction = transactionService.findById(transactionId);
         if(transaction.getUser() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else if (transaction.getUser().getUsername().equals(principal.getName())){
-            return new ResponseEntity<>(transaction, HttpStatus.OK);
+            return new ResponseEntity<>(transactionService.toDao(transaction), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
