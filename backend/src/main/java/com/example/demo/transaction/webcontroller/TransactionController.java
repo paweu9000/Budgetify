@@ -85,11 +85,11 @@ public class TransactionController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<String> getAllTransactions(@CurrentSecurityContext(expression = "authentication?.name")
+    public ResponseEntity<List<TransactionDao>> getAllTransactions(@CurrentSecurityContext(expression = "authentication?.name")
                                                      String username) {
         User user = userService.findByUsername(username);
-        List<Transaction> transactions = transactionService.findAllByUser(user);
-        return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
+        List<TransactionDao> transactions = transactionService.toDaoList(transactionService.findAllByUser(user));
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
     @GetMapping("/all/{days}")
