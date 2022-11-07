@@ -28,15 +28,15 @@ public class TransactionController {
     }
 
     @GetMapping("/{transactionId}")
-    public ResponseEntity<String> getTransaction(@PathVariable("transactionId") long transactionId,
+    public ResponseEntity<Transaction> getTransaction(@PathVariable("transactionId") long transactionId,
                                                  Principal principal) {
         Transaction transaction = transactionService.findById(transactionId);
         if(transaction.getUser() == null) {
-            return new ResponseEntity<>("Transaction does not exist!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else if (transaction.getUser().getUsername().equals(principal.getName())){
-            return new ResponseEntity<>(transaction.toString(), HttpStatus.OK);
+            return new ResponseEntity<>(transaction, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("You cannot access other users data!", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
 
