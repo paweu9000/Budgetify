@@ -110,11 +110,13 @@ public class TransactionController {
     }
 
     @GetMapping("/spendings/all")
-    public ResponseEntity<String> getAllSpendingsTransactions(@CurrentSecurityContext(expression = "authentication?.name")
+    public ResponseEntity<List<TransactionDao>> getAllSpendingsTransactions(
+            @CurrentSecurityContext(expression = "authentication?.name")
                                                          String username) {
         User user = userService.findByUsername(username);
-        List<Transaction> transactions = transactionService.findAllByUserAndType(user, BudgetType.SPENDINGS);
-        return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
+        List<TransactionDao> transactions = transactionService.toDaoList
+                (transactionService.findAllByUserAndType(user, BudgetType.SPENDINGS));
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
     @GetMapping("/savings/all")
