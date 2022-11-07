@@ -93,10 +93,11 @@ public class TransactionController {
     }
 
     @GetMapping("/all/{days}")
-    public ResponseEntity<String> getTransactionsByDays(@PathVariable("days") int days, Principal principal) {
+    public ResponseEntity<List<TransactionDao>> getTransactionsByDays(@PathVariable("days") int days, Principal principal) {
         User user = userService.findByUsername(principal.getName());
-        List<Transaction> transactions = transactionService.findAllTransactionsByDays(user, days);
-        return new ResponseEntity<>(transactions.toString(), HttpStatus.OK);
+        List<TransactionDao> transactions = transactionService.toDaoList
+                (transactionService.findAllTransactionsByDays(user, days));
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
     @GetMapping("/loan/all")
