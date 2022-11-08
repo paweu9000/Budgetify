@@ -125,4 +125,10 @@ class UnauthorizedUserTests {
 				.andExpect(status().isUnauthorized());
 	}
 
+	@Test
+	public void unauthorizedUserGetUserRequest() throws Exception {
+		mvc.perform(get("/api/user"))
+				.andExpect(status().isUnauthorized());
+	}
+
 }
