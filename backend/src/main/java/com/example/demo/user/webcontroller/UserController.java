@@ -1,5 +1,6 @@
 package com.example.demo.user.webcontroller;
 
+import com.example.demo.dao.UserDao;
 import com.example.demo.user.model.User;
 import com.example.demo.user.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -65,5 +66,12 @@ public class UserController {
                                                String username){
         User user = userService.findByUsername(username);
         return new ResponseEntity<>(user.getIncome(), HttpStatus.OK);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<UserDao> getUser(@CurrentSecurityContext(expression = "authentication?.name")
+                                               String username) {
+        User user = userService.findByUsername(username);
+        return new ResponseEntity<>(userService.toDao(user), HttpStatus.OK);
     }
 }
