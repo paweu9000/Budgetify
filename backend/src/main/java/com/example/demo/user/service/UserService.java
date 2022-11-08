@@ -1,5 +1,6 @@
 package com.example.demo.user.service;
 
+import com.example.demo.dao.UserDao;
 import com.example.demo.dto.TransactionDto;
 import com.example.demo.enums.BudgetType;
 import com.example.demo.transaction.model.Transaction;
@@ -89,6 +90,10 @@ public class UserService {
             default -> throw new RuntimeException("Transaction has wrong type parameter!");
         }
         saveUser(user);
+    }
+
+    public UserDao toDao(User user) {
+        return new UserDao(user);
     }
 
 }
