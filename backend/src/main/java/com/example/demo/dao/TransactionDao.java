@@ -6,6 +6,8 @@ import com.example.demo.transaction.model.Transaction;
 import java.time.LocalDate;
 
 public class TransactionDao {
+
+    private long id;
     private String description;
     private BudgetType budgetType;
     private double amount;
@@ -15,6 +17,7 @@ public class TransactionDao {
     }
 
     public TransactionDao(Transaction transaction) {
+        this.id = transaction.getId();
         this.description = transaction.getDescription();
         this.budgetType = transaction.getBudgetType();
         this.amount = transaction.getAmount();
@@ -51,5 +54,13 @@ public class TransactionDao {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
